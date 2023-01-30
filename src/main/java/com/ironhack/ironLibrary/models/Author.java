@@ -1,6 +1,9 @@
 package com.ironhack.ironLibrary.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 public class Author {
@@ -12,14 +15,17 @@ public class Author {
 
     private String email;
 
-    @OneToOne
-    @JoinColumn(name="isbn")
-    private Book authorBook;
+    @OneToMany (mappedBy = "isbn")
+    @JsonIgnore
+    //@JoinColumn(name="isbn")
+    private List<Book> authorBook;
 
     public Author() {
     }
 
-    public Author(String name, String email, Book authorBook) {
+
+    public Author( String name, String email, List<Book> authorBook) {
+
         this.name = name;
         this.email = email;
         this.authorBook = authorBook;
@@ -49,11 +55,11 @@ public class Author {
         this.email = email;
     }
 
-    public Book getAuthorBook() {
+    public List<Book> getAuthorBook() {
         return authorBook;
     }
 
-    public void setAuthorBook(Book authorBook) {
+    public void setAuthorBook(List<Book> authorBook) {
         this.authorBook = authorBook;
     }
 }
